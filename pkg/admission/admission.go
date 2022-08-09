@@ -46,8 +46,6 @@ func (a Admitter) ValidateConfigMapReview() (*admissionv1.AdmissionReview, error
 }
 
 func (a Admitter) ConfigMap() (*corev1.ConfigMap, error) {
-	logrus.Print("Kind==")
-	logrus.Print(a.Request.Kind.Kind)
 	if a.Request.Kind.Kind != "ConfigMap" {
 		return nil, fmt.Errorf("only ConfigMaps are supported here")
 	}

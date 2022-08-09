@@ -2,6 +2,7 @@ package validation
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/sirupsen/logrus"
@@ -26,7 +27,13 @@ func (n nameValidator) Name() string {
 // bad string.
 func (n nameValidator) Validate(cm *corev1.ConfigMap) (validation, error) {
 	badString := "offensive"
-
+	data := cm.Data
+	start, err := strconv.Atoi(data["start"])
+	logrus.Print("Here data checking.......")
+	logrus.Print(start)
+	if err != nil {
+		logrus.Print(err.Error())
+	}
 	if strings.Contains(cm.Name, badString) {
 		v := validation{
 			Valid:  false,
