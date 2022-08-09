@@ -21,7 +21,7 @@ spec:
           effect: NoSchedule
       containers:
         - image: rupeshsahu/test-conn:cm
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           name: snat-cm-webhook
           env:
             - name: TLS
