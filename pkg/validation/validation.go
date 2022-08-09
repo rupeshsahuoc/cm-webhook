@@ -5,20 +5,16 @@ import (
 	corev1 "k8s.io/api/core/v1"
 )
 
-// Validator is a container for mutation
 type Validator struct {
 	Logger *logrus.Entry
 }
 
-// NewValidator returns an initialised instance of Validator
 func NewValidator(logger *logrus.Entry) *Validator {
 	return &Validator{Logger: logger}
 }
 
-// podValidators is an interface used to group functions mutating pods
-type podValidator interface {
+type configMapValidator interface {
 	Validate(*corev1.ConfigMap) (validation, error)
-	Name() string
 }
 
 type validation struct {
@@ -26,22 +22,21 @@ type validation struct {
 	Reason string
 }
 
-// ValidatePod returns true if a pod is valid
 func (v *Validator) ValidateConfigMap(cm *corev1.ConfigMap) (validation, error) {
-	var podName string
+	var cmName string
 	if cm.Name != "" {
-		podName = cm.Name
+		cmName = cm.Name
 	} else {
 		if cm.ObjectMeta.GenerateName != "" {
-			podName = cm.ObjectMeta.GenerateName
+			cmName = cm.ObjectMeta.GenerateName
 		}
 	}
-	log := logrus.WithField("pod_name", podName)
+	log := logrus.WithField("configMap_name", cmName)
 	log.Print("delete me")
 
-	// list of all validations to be applied to the pod
-	validations := []podValidator{
-		nameValidator{v.Logger},
+	// list of all validations to be applied to the configMap
+	validations := []configMapValidator{
+		dataValidator{v.Logger},
 	}
 
 	// apply all validations
@@ -56,5 +51,5 @@ func (v *Validator) ValidateConfigMap(cm *corev1.ConfigMap) (validation, error) 
 		}
 	}
 
-	return validation{Valid: true, Reason: "valid pod"}, nil
+	return validation{Valid: true, Reason: "valid configMap"}, nil
 }

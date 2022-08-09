@@ -17,8 +17,6 @@ func main() {
 
 	// handle our core application
 	http.HandleFunc("/validate-cms", ServeValidatePods)
-	// http.HandleFunc("/mutate-pods", ServeMutatePods)
-	// http.HandleFunc("/health", ServeHealth)
 
 	// start the server
 	// listens to clear text http on port 8080 unless TLS env var is set to "true"
@@ -31,12 +29,6 @@ func main() {
 		logrus.Print("Listening on port 8080...")
 		logrus.Fatal(http.ListenAndServe(":8080", nil))
 	}
-}
-
-// ServeHealth returns 200 when things are good
-func ServeHealth(w http.ResponseWriter, r *http.Request) {
-	logrus.WithField("uri", r.RequestURI).Debug("healthy")
-	fmt.Fprint(w, "OK")
 }
 
 // ServeValidatePods validates an admission request and then writes an admission
