@@ -16,7 +16,7 @@ func main() {
 	setLogger()
 
 	// handle our core application
-	http.HandleFunc("/validate-cms", ServeValidatePods)
+	http.HandleFunc("/validate-cms", ServeValidateConfigMaps)
 
 	// start the server
 	// listens to clear text http on port 8080 unless TLS env var is set to "true"
@@ -31,9 +31,7 @@ func main() {
 	}
 }
 
-// ServeValidatePods validates an admission request and then writes an admission
-// review to `w`
-func ServeValidatePods(w http.ResponseWriter, r *http.Request) {
+func ServeValidateConfigMaps(w http.ResponseWriter, r *http.Request) {
 	logger := logrus.WithField("uri", r.RequestURI)
 	logger.Debug("received validation request")
 

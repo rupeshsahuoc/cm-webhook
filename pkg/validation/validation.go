@@ -32,7 +32,7 @@ func (v *Validator) ValidateConfigMap(cm *corev1.ConfigMap) (validation, error) 
 		}
 	}
 	log := logrus.WithField("configMap_name", cmName)
-	log.Print("delete me")
+	log.Print("Upcoming configMap")
 
 	// list of all validations to be applied to the configMap
 	validations := []configMapValidator{
