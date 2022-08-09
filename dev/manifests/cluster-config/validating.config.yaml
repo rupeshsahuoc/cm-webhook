@@ -1,0 +1,46 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: "snat-cm-webhook.acme.com"
+webhooks:
+  - name: "snat-cm-webhook.acme.com"
+    namespaceSelector:
+      matchLabels:
+        admission-webhook: enabled
+    rules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["configmaps"]
+        scope: "*"
+    clientConfig:
+      service:
+        namespace: default
+        name: snat-cm-webhook
+        path: /validate-cms
+        port: 443
+      caBundle: |
+        LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURMekNDQWhlZ0F3SUJBZ0lVWmdsK1c5Q3ZX
+        dkNheFBwWURnY2w3bkhSc2k0d0RRWUpLb1pJaHZjTkFRRUwKQlFBd0p6RUxNQWtHQTFVRUJoTUNR
+        VlV4R0RBV0JnTlZCQU1NRDNOdVlYUXRZMjB0ZDJWaWFHOXZhekFlRncweQpNakE0TURreE16RTFN
+        ekphRncweU16QTRNRGt4TXpFMU16SmFNQ2N4Q3pBSkJnTlZCQVlUQWtGVk1SZ3dGZ1lEClZRUURE
+        QTl6Ym1GMExXTnRMWGRsWW1odmIyc3dnZ0VpTUEwR0NTcUdTSWIzRFFFQkFRVUFBNElCRHdBd2dn
+        RUsKQW9JQkFRQ21uc0grNVJXMkZ5Z3Y1VkgzMUdldSt5TGRjbGoxZG9mbFRrbDkvNVcxVTAydFRp
+        OXk0NXh6Nkd4ZwpNWGdiemJBMWNPbzJHd2dnZHl6L05PUGZsdFZQb05BcDIvNG81S09XMkMzYVBP
+        OVJwaWRKVS9oWE5wTXhZZ2kwCmovd1B3V3I4TGpzcytKMjJiMTZ3MVdQVFdwMmlOWU14dUNKSlM4
+        N1lyejdub1IwVjM5L3FRbTVlYTUvN2xsREwKRFdmV2dxTHRtV2ZaTHJqT1hvS3lOa0RtMk0xeTdn
+        U3NHTmYyQ25TVUs0ZEN4WFhZNWxXM2oveFJ0NHBqL0NDZQpuYTVBWEJBWEgrRC9hU01aSHRiZ1lv
+        ZnZISXRYaUN5bm96SjVWREFsN1FkVTNvcTdkQlNXSjczcHBsS0VtazJyCmZXM1NKbzViclE5eCt1
+        KzhDYm9Ha0lHL3BvRzdBZ01CQUFHalV6QlJNQjBHQTFVZERnUVdCQlNTZU5OVmtoblUKNHNya1Bj
+        Mkh1Rzd3RDJOVkJEQWZCZ05WSFNNRUdEQVdnQlNTZU5OVmtoblU0c3JrUGMySHVHN3dEMk5WQkRB
+        UApCZ05WSFJNQkFmOEVCVEFEQVFIL01BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQWJRMmVNbzUw
+        MU5QWWpuYnNWCkFQblpDbGhSMTV5ajZaZVB5aWZIUFFVaUxvSzdINksxcDZLcEJyL090V29GN2ly
+        Mk9VMUsxTWtWcmowV0tCMFcKU3V1YmtWc21PcU4vWm5wMTdSckJrY0g3eVlXNjc4U2lISnRmdkNK
+        Vk5tQWZEbnNaUHlqNnRDZ3F5M2dWYVVDbQoxZ2F6c0pmNXdFdHJ5SjhYWkVIdmhGVE9XSHVWOEhp
+        cDFINk5pUGlGb3djSTBvbWVWaTRXU3N5em4yZ0ZnUDNDCi9LclJkNXlXaTgzVzAyZEc0ckpHWkhW
+        eS9WT1ZjSTZZS2dEMStubW1HYWRiQVpSQ2FzNXBqS29seTd6dTVqWFoKajZXb2VveFZPS3pGRlBz
+        TnVDQ1YzSUF2emdPcXJQWGpPMFpmVmtjOFZ5RGtPSjFGV0s4aEMwL2lEOVNmbGNUdwpXV2dWCi0t
+        LS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    admissionReviewVersions: ["v1"]
+    sideEffects: None
+    timeoutSeconds: 2

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: snat-cm-webhook
+  name: snat-cm-webhook
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: snat-cm-webhook
+  template:
+    metadata:
+      labels:
+        app: snat-cm-webhook
+    spec:
+      tolerations:
+        - key: acme.com/lifespan-remaining
+          operator: Exists
+          effect: NoSchedule
+      containers:
+        - image: rupeshsahu/test-conn:cm
+          imagePullPolicy: Never
+          name: snat-cm-webhook
+          env:
+            - name: TLS
+              value: "true"
+            - name: LOG_LEVEL
+              value: "trace"
+            - name: LOG_JSON
+              value: "false"
+          volumeMounts:
+            - name: tls
+              mountPath: "/etc/admission-webhook/tls"
+              readOnly: true
+      volumes:
+        - name: tls
+          secret:
+            secretName: snat-cm-webhook-tls

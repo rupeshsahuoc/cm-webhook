@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: snat-cm-webhook
+  name: snat-cm-webhook
+  namespace: default
+spec:
+  type: NodePort
+  ports:
+    - port: 443
+      protocol: TCP
+      targetPort: 443
+      nodePort: 30100
+  selector:
+    app: snat-cm-webhook
