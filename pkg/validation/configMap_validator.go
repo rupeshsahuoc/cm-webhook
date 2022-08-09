@@ -23,7 +23,7 @@ func (n dataValidator) Validate(cm *corev1.ConfigMap) (validation, error) {
 		start < 5000 || end > 65000 || start > end || portsPerNode > end-start+1 {
 		v := validation{
 			Valid:  false,
-			Reason: fmt.Sprintf("configMap data contains invalid values...start=%q, end=%q portsPerNode=%q", start, end, portsPerNode),
+			Reason: fmt.Sprintf("configMap data contains invalid values...start=%d, end=%d portsPerNode=%d", start, end, portsPerNode),
 		}
 		return v, nil
 	}
